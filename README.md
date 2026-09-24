@@ -1,6 +1,6 @@
 # Langflow Multimodal Parsers
 
-[![CI](https://github.com/YOUR_GITHUB_USERNAME/langflow-parsers/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/langflow-parsers/actions/workflows/ci.yml)
+[![CI](https://github.com/Suuunboy/langflow-parsers/actions/workflows/ci.yml/badge.svg)](https://github.com/Suuunboy/langflow-parsers/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
 ![Langflow](https://img.shields.io/badge/Langflow-custom%20components-7528fc)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -30,11 +30,14 @@ flowchart LR
     P -- collection name --> DB
 ```
 
+For example, a DOCX with a heading, a paragraph, a screenshot and a table with an icon inside a cell
+produces:
+
 **Text output**
 
 ```text
 Router setup guide
-1. Connect the cables as shown below:
+Connect the cables as shown below:
 <image1>
 | Port | Purpose |
 | --- | --- |
@@ -112,7 +115,7 @@ Data(data={'value': ['/app/data/<flow_id>/manual.docx'], 'collection_name': 'man
 ### Option 1: load the components folder (recommended)
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/langflow-parsers.git
+git clone https://github.com/Suuunboy/langflow-parsers.git
 pip install "python-docx>=1.1" "pymupdf>=1.24.3" "pillow>=10"
 LANGFLOW_COMPONENTS_PATH=./langflow-parsers/components langflow run
 ```
@@ -138,8 +141,9 @@ editor and replace the contents with [`docx_parser.py`](components/parsers/docx_
 
 - **One file per run.** If the input contains several paths, only the first one is parsed and a warning is
   logged.
-- **DOCX:** text inside text boxes and shapes, footnotes and comments is not extracted; native Word charts
-  are not rendered.
+- **DOCX:** automatic list numbering and bullets are not included, because Word generates them at
+  render time and they are not part of the document text. Text inside text boxes and shapes, footnotes
+  and comments is not extracted; native Word charts are not rendered.
 - **PDF:** scanned documents have no text layer and need OCR, which is not included. Vector graphics drawn
   with paths (e.g. charts) are not captured as images. Tables come out as plain lines of text. The
   two-column mode is a heuristic for classic two-column layouts.
